@@ -4,8 +4,8 @@ class PinsController < ApplicationController
   # GET /pins
   # GET /pins.json
   def index
-    @pins = Pin.order("created_at desc")
-
+    @pins = Pin.order("created_at desc").page(params[:page]).per_page(20)
+    
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @pins }
@@ -46,7 +46,7 @@ class PinsController < ApplicationController
 
     respond_to do |format|
       if @pin.save
-        format.html { redirect_to @pin, notice: 'Pin was successfully created.' }
+        format.html { redirect_to root_path, notice: 'Pin was successfully created.' }
         format.json { render json: @pin, status: :created, location: @pin }
       else
         format.html { render action: "new" }
